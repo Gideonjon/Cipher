@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/splashScreen">
+
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.example.cypher.SplashScreen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_onboardingScreen"
+            app:destination="@id/onboardingScreen" />
+        <action
+            android:id="@+id/action_splashScreen_to_userLogin"
+            app:destination="@id/userLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingScreen"
+        android:name="com.example.cypher.OnboardingScreen"
+        android:label="fragment_onboarding_screen"
+        tools:layout="@layout/fragment_onboarding_screen" >
+        <action
+            android:id="@+id/action_onboardingScreen_to_userName"
+            app:destination="@id/userName" />
+    </fragment>
+    <fragment
+        android:id="@+id/createWallet"
+        android:name="com.example.cypher.CreateWallet"
+        android:label="fragment_create_wallet"
+        tools:layout="@layout/fragment_create_wallet" >
+        <action
+            android:id="@+id/action_createWallet_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userName"
+        android:name="com.example.cypher.UserName"
+        android:label="fragment_user_name"
+        tools:layout="@layout/fragment_user_name" >
+        <action
+            android:id="@+id/action_userName_to_setPin"
+            app:destination="@id/setPin" />
+    </fragment>
+    <fragment
+        android:id="@+id/setPin"
+        android:name="com.example.cypher.SetPin"
+        android:label="fragment_set_pin"
+        tools:layout="@layout/fragment_set_pin" >
+        <action
+            android:id="@+id/action_setPin_to_createWallet"
+            app:destination="@id/createWallet" />
+    </fragment>
+    <fragment
+        android:id="@+id/userLogin"
+        android:name="com.example.cypher.UserLogin"
+        android:label="fragment_user_login"
+        tools:layout="@layout/fragment_user_login" >
+        <action
+            android:id="@+id/action_userLogin_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cypher.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>
