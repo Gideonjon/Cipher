@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.cypher.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class HomeFragment : Fragment() {
@@ -41,20 +42,47 @@ class HomeFragment : Fragment() {
         }
         setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.white))
 
-         binding.airtime.setOnClickListener {
-             findNavController().navigate(R.id.action_homeFragment_to_airtime2)
-         }
-          binding.airtime.setOnClickListener {
-             findNavController().navigate(R.id.action_homeFragment_to_data)
-         }
+        binding.airtime.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_airtime2)
+        }
+        binding.airtime.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_data)
+        }
         binding.buy.setOnClickListener {
-
+            showSnackBar("Coming Soon!!")
         }
         binding.send.setOnClickListener {
+            showSnackBar("Coming Soon!!")
+
+        }
+        binding.receive.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_receiveFunds)
+        }
+
+        binding.medical.setOnClickListener {
+            showSnackBar("Coming Soon!!")
 
         }
 
+        binding.merchant.setOnClickListener {
+            showSnackBar("Coming Soon!!")
 
+        }
+
+        binding.addition.setOnClickListener {
+            showSnackBar("Coming Soon!!")
+
+        }
+
+        binding.electricity.setOnClickListener {
+            showSnackBar("Coming Soon!!")
+
+        }
+
+        binding.voucher.setOnClickListener {
+            showSnackBar("Coming Soon!!")
+
+        }
 
 
 
@@ -63,6 +91,12 @@ class HomeFragment : Fragment() {
         return view
 
     }
+
+    private fun showSnackBar(response: String) {
+        val rootView = binding.root
+        Snackbar.make(rootView, response, Snackbar.LENGTH_SHORT).show()
+    }
+
     private fun setStatusBarColor(color: Int) {
         activity?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -70,8 +104,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 
 
 }

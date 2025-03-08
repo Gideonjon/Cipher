@@ -1,14 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SetPin">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Back"
+        android:src="@drawable/arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <!-- Profile Image -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="44dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="44dp"
+        android:contentDescription="Profile Picture"
+        android:src="@drawable/logo"
+        app:layout_constraintMarginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+    <!-- Enter PIN Title -->
+    <TextView
+        android:id="@+id/tvEnterPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Enter your PIN code"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintMarginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/profileImage"
+        app:layout_constraintTop_toBottomOf="@id/profileImage" />
+
+    <!-- Log Out -->
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Not you? Log Out"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEnterPin" />
+
+    <!-- PIN Entry -->
+    <LinearLayout
+        android:id="@+id/pinEntryContainer"
+        android:layout_width="137dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/pin_background"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tvEnterPin"
+        app:layout_constraintTop_toBottomOf="@id/tvLogout">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/pin_dot" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/pin_dot" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/pin_dot" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/pin_dot" />
+    </LinearLayout>
+
+    <!-- Keypad -->
+    <GridLayout
+        android:id="@+id/keypad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:columnCount="3"
+        android:rowCount="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pinEntryContainer">
+
+        <!-- Digits -->
+        <Button
+            android:id="@+id/btn1"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/btn2"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="2" />
+
+        <Button
+            android:id="@+id/btn3"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="3" />
+
+        <Button
+            android:id="@+id/btn4"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="4" />
+
+        <Button
+            android:id="@+id/btn5"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="5" />
+
+        <Button
+            android:id="@+id/btn6"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="6" />
+
+        <Button
+            android:id="@+id/btn7"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="7" />
+
+        <Button
+            android:id="@+id/btn8"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="8" />
+
+        <Button
+            android:id="@+id/btn9"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+
+            android:text="9" />
+
+        <!-- Biometric Icon -->
+        <ImageButton
+            android:id="@+id/btnBiometric"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="18dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Biometric Authentication"
+            android:src="@drawable/ic_fingerprint" />
+
+        <Button
+            android:id="@+id/btn0"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+            android:text="0" />
+
+        <!-- Backspace -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_backspace"
+            style="@style/KeypadButton"
+            android:layout_margin="18dp"
+            android:text="⌫"
+            android:textSize="28sp" />
+    </GridLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
