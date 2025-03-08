@@ -87,7 +87,7 @@
         android:name="com.example.cypher.Data"
         android:label="fragment_data"
         tools:layout="@layout/fragment_data" />
-    <fragment
+    <dialog
         android:id="@+id/receiveFunds"
         android:name="com.example.cypher.ReceiveFunds"
         android:label="fragment_receive_funds"
