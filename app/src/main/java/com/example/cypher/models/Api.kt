@@ -1,6 +1,7 @@
 package com.example.cypher.models
 
 import com.example.cypher.utils.AirtimeBuyResponse
+import com.example.cypher.utils.CheckUserNameResponse
 import com.example.cypher.utils.CreateWalletResponse
 import com.example.cypher.utils.DataBuyResponse
 import com.example.cypher.utils.DataPlanResponse
@@ -15,12 +16,14 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 data class CreateWallet(val pin: String, val username: String) // Define JSON request model
-data class UserLogin(val pin: String) // Define JSON request model
+data class UserLogin(val pin: String, val username: String) // Define JSON request model
+data class CheckUserNameRequest(val username: String) // Define JSON request model
+
 
 
 interface Api {
 
-   @POST("create-wallet")
+    @POST("create-wallet")
     fun walletResponse(@Body response: CreateWallet): Call<CreateWalletResponse>
 
     @POST("decrypt_wallet")
@@ -30,6 +33,9 @@ interface Api {
     @GET("services/airtime/networks")
     fun getNetworkList(): Call<NetworkResponse>
 
+    @POST("check_username")
+    fun checkUserName(@Body request: CheckUserNameRequest): Call<CheckUserNameResponse>
+
 
     @FormUrlEncoded
     @POST("services/airtime/buy")
@@ -37,9 +43,7 @@ interface Api {
         @Field("network") network: String,
         @Field("phone") phone: String,
         @Field("amount") amount: String,
-
-
-        ): Call<AirtimeBuyResponse>
+    ): Call<AirtimeBuyResponse>
 
     @GET("services/data/plans")
     fun getDataPlan(): Call<DataPlanResponse>

@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.Window
 import com.example.cypher.databinding.FragmentSetPinBinding
 import com.example.cypher.models.RetrofitClient
+import com.example.cypher.models.UserLogin
+import com.example.cypher.utils.DecryptWalletResponse
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,7 +31,7 @@ class SetPin : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        _binding = FragmentSetPinBinding.inflate(inflater, container,false)
+        _binding = FragmentSetPinBinding.inflate(inflater, container, false)
 
         val view = binding.root
 
@@ -60,7 +62,9 @@ class SetPin : Fragment() {
             updateDots()
 
             if (passcode.length == 4) {
+
                 verifyPasscode()
+
             }
         }
     }
@@ -145,9 +149,6 @@ class SetPin : Fragment() {
     private fun showSnackBar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
-
-
-
 
 
 }
