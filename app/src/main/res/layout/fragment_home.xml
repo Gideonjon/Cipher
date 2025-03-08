@@ -120,9 +120,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/bold"
         android:text="Bills Payment"
-        android:layout_marginTop="32dp"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView"
@@ -138,35 +138,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-  <ImageView
+    <ImageView
         android:id="@+id/internet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-      app:layout_constraintStart_toEndOf="@id/electricity"
-      app:layout_constraintEnd_toStartOf="@id/voucher"
-      app:layout_constraintTop_toTopOf="@id/electricity"
-      app:layout_constraintBottom_toBottomOf="@id/electricity"
-        android:src="@drawable/internet"/>
+        android:src="@drawable/internet"
+        app:layout_constraintBottom_toBottomOf="@id/electricity"
+        app:layout_constraintEnd_toStartOf="@id/voucher"
+        app:layout_constraintStart_toEndOf="@id/electricity"
+        app:layout_constraintTop_toTopOf="@id/electricity" />
 
-  <ImageView
+    <ImageView
         android:id="@+id/voucher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-      app:layout_constraintStart_toEndOf="@id/internet"
-      app:layout_constraintTop_toTopOf="@id/electricity"
-      app:layout_constraintEnd_toStartOf="@id/medical"
-      app:layout_constraintBottom_toBottomOf="@id/electricity"
-        android:src="@drawable/voucher"/>
+        android:src="@drawable/voucher"
+        app:layout_constraintBottom_toBottomOf="@id/electricity"
+        app:layout_constraintEnd_toStartOf="@id/medical"
+        app:layout_constraintStart_toEndOf="@id/internet"
+        app:layout_constraintTop_toTopOf="@id/electricity" />
 
-  <ImageView
+    <ImageView
         android:id="@+id/medical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-      app:layout_constraintStart_toEndOf="@id/voucher"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@id/electricity"
-      app:layout_constraintBottom_toBottomOf="@id/electricity"
-        android:src="@drawable/medical"/>
+        android:src="@drawable/medical"
+        app:layout_constraintBottom_toBottomOf="@id/electricity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/voucher"
+        app:layout_constraintTop_toTopOf="@id/electricity" />
 
     <ImageView
         android:id="@+id/merchant"
@@ -174,9 +174,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:src="@drawable/merchant"
-        app:layout_constraintEnd_toStartOf="@id/internet"
+        app:layout_constraintEnd_toStartOf="@id/airtime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/electricity"/>
+        app:layout_constraintTop_toBottomOf="@+id/electricity" />
+
+    <ImageView
+        android:id="@+id/airtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/airtime"
+        app:layout_constraintBottom_toBottomOf="@id/merchant"
+        app:layout_constraintEnd_toStartOf="@id/bill"
+        app:layout_constraintStart_toEndOf="@id/merchant"
+        app:layout_constraintTop_toTopOf="@id/merchant" />
+
+    <ImageView
+        android:id="@+id/bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bill"
+        app:layout_constraintBottom_toBottomOf="@id/merchant"
+        app:layout_constraintEnd_toStartOf="@id/addition"
+        app:layout_constraintStart_toEndOf="@id/airtime"
+        app:layout_constraintTop_toTopOf="@id/merchant" />
+
+    <ImageView
+        android:id="@+id/addition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/addition"
+        app:layout_constraintBottom_toBottomOf="@id/merchant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bill"
+        app:layout_constraintTop_toTopOf="@id/merchant" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
