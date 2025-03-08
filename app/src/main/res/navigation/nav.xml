@@ -66,5 +66,30 @@
         android:id="@+id/homeFragment"
         android:name="com.example.cypher.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_airtime2"
+            app:destination="@id/airtime2" />
+        <action
+            android:id="@+id/action_homeFragment_to_data"
+            app:destination="@id/data" />
+        <action
+            android:id="@+id/action_homeFragment_to_receiveFunds"
+            app:destination="@id/receiveFunds" />
+    </fragment>
+    <fragment
+        android:id="@+id/airtime2"
+        android:name="com.example.cypher.Airtime"
+        android:label="fragment_airtime"
+        tools:layout="@layout/fragment_airtime" />
+    <fragment
+        android:id="@+id/data"
+        android:name="com.example.cypher.Data"
+        android:label="fragment_data"
+        tools:layout="@layout/fragment_data" />
+    <fragment
+        android:id="@+id/receiveFunds"
+        android:name="com.example.cypher.ReceiveFunds"
+        android:label="fragment_receive_funds"
+        tools:layout="@layout/fragment_receive_funds" />
 </navigation>

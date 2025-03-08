@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.example.cypher.databinding.FragmentHomeBinding
 
 
@@ -39,6 +40,24 @@ class HomeFragment : Fragment() {
             isHidden = !isHidden  // Toggle state
         }
         setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+         binding.airtime.setOnClickListener {
+             findNavController().navigate(R.id.action_homeFragment_to_airtime2)
+         }
+          binding.airtime.setOnClickListener {
+             findNavController().navigate(R.id.action_homeFragment_to_data)
+         }
+        binding.buy.setOnClickListener {
+
+        }
+        binding.send.setOnClickListener {
+
+        }
+
+
+
+
+
 
 
         return view

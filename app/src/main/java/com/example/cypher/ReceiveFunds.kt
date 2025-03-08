@@ -5,13 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.cypher.databinding.FragmentOnboardingScreenBinding
+import com.example.cypher.databinding.FragmentReceiveFundsBinding
 
 
-class OnboardingScreen : Fragment() {
-    private var _binding: FragmentOnboardingScreenBinding? = null
+class ReceiveFunds : Fragment() {
+    private var _binding: FragmentReceiveFundsBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,8 +18,10 @@ class OnboardingScreen : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        _binding = FragmentOnboardingScreenBinding.inflate(inflater, container, false)
+        _binding = FragmentReceiveFundsBinding.inflate(inflater, container, false)
         val view = binding.root
+
+
 
 
         return view
