@@ -50,90 +50,64 @@ class Data : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.phoneNumberEt.filters = arrayOf(InputFilter.LengthFilter(11))
+        binding.phoneNumberEt.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(11))
 
+        // Fetch available networks (No need to pass authToken)
+        getNetworkList()
 
-        val sharedPreferences =
-            requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-        val authToken = sharedPreferences.getString("auth_token", "") ?: ""
-
-        if (authToken.isNotEmpty()) {
-            getNetworkList(authToken)
-        } else {
-            Toast.makeText(requireContext(), R.string.error_auth_token_missing, Toast.LENGTH_SHORT)
-                .show()
-
-        }
         binding.payBtn.setOnClickListener {
             if (validateInputs()) {
                 val selectedNetworkId =
-                    networkIds[networks.indexOf(binding.networkName.text.toString())]
+                    networkIds.getOrNull(networks.indexOf(binding.networkName.text.toString()))
                 val selectedPlan =
                     plans.firstOrNull { it.plan == binding.bundleName.text.toString() }
-                if (selectedPlan != null) {
-                    buyData(authToken, selectedNetworkId, selectedPlan)
+
+                if (selectedNetworkId != null && selectedPlan != null) {
+                    buyData(selectedNetworkId, selectedPlan)
                 } else {
-                    showToast("Please select a valid data plan.")
+                    showToast("Please select a valid network and data plan.")
                 }
             }
-
         }
 
         return view
-
     }
 
-    private fun buyData(authToken: String, networkId: String, selectedPlan: DataPlan) {
+    private fun buyData(networkId: String, selectedPlan: DataPlan) {
         val phone = binding.phoneNumberEt.text.toString().trim()
         showProgressBar(R.layout.progress_bar)
-        BillsClient.instance(requireContext()).buyData(
-            "Bearer $authToken",
+
+        BillsClient.instance().buyData(
             networkId,
             phone,
             selectedPlan.plan_id,
             selectedPlan.price.toString(),
             selectedPlan.plan
-        )
-            .enqueue(object : Callback<DataBuyResponse> {
-                override fun onResponse(
-                    call: Call<DataBuyResponse>,
-                    response: Response<DataBuyResponse>
-                ) {
-                    hideProgressBar()
-                    if (response.code() == 403) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Unauthorized access. Please log in again.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Optionally redirect the user to the login screen
-                    } else if (response.isSuccessful) {
-
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Error: ${response.message()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<DataBuyResponse>, t: Throwable) {
-                    hideProgressBar()
-                    Log.e("Airtime", "Error: ${t.localizedMessage}")
-                    showToast("Airtime purchase failed. Check your internet connection.")
-
+        ).enqueue(object : Callback<DataBuyResponse> {
+            override fun onResponse(
+                call: Call<DataBuyResponse>,
+                response: Response<DataBuyResponse>
+            ) {
+                hideProgressBar()
+                when {
+                    response.code() == 403 -> showToast("Unauthorized access. Please log in again.")
+                    response.isSuccessful -> showToast("Data purchase was successful!")
+                    else -> showToast("Cipher Protocol is down")
 
                 }
+            }
 
-
-            })
-
+            override fun onFailure(call: Call<DataBuyResponse>, t: Throwable) {
+                hideProgressBar()
+                Log.e("Data", "Error: ${t.localizedMessage}")
+                showToast("Data purchase failed. Check your internet connection.")
+            }
+        })
     }
 
-    private fun getNetworkList(authToken: String) {
+    private fun getNetworkList() {
         showProgressBar(R.layout.progress_bar)
-        BillsClient.instance(requireContext()).getNetworkList("Bearer $authToken")
+        BillsClient.instance().getNetworkList()
             .enqueue(object : Callback<NetworkResponse> {
                 override fun onResponse(
                     call: Call<NetworkResponse>,
@@ -148,31 +122,21 @@ class Data : Fragment() {
                                 networks.add(it.network)
                                 networkIds.add(it.id)
                             }
-                            setupNetworkDropdown(authToken)
+                            setupNetworkDropdown()
                         }
                     } else {
-                        Log.e(
-                            "Data",
-                            "Response Code: ${response.code()}, Message: ${response.message()}"
-                        )
-                        showToast("Response Code: ${response.code()}, Message: ${response.message()}")
+                        showToast("Error: ${response.message()}")
                     }
-
-
                 }
-
 
                 override fun onFailure(call: Call<NetworkResponse>, t: Throwable) {
                     hideProgressBar()
                     showToast("Failed to load networks. Please try again.")
-
                 }
-
-
             })
     }
 
-    private fun setupNetworkDropdown(authToken: String) {
+    private fun setupNetworkDropdown() {
         val networkIcons = mapOf(
             "MTN" to R.drawable.mtn,
             "Glo" to R.drawable.glo,
@@ -204,13 +168,13 @@ class Data : Fragment() {
         binding.networkName.setOnItemClickListener { _, _, position, _ ->
             val selectedNetworkId = networkIds[position]
             clearPlanDropdown()
-            fetchPlansForNetwork(authToken, selectedNetworkId)
+            fetchPlansForNetwork(selectedNetworkId)
         }
     }
 
-    private fun fetchPlansForNetwork(authToken: String, networkId: String) {
+    private fun fetchPlansForNetwork(networkId: String) {
         showProgressBar(R.layout.progress_bar)
-        BillsClient.instance(requireContext()).getDataPlan("Bearer $authToken")
+        BillsClient.instance().getDataPlan()
             .enqueue(object : Callback<DataPlanResponse> {
                 override fun onResponse(
                     call: Call<DataPlanResponse>,
@@ -229,7 +193,6 @@ class Data : Fragment() {
                 }
 
                 override fun onFailure(call: Call<DataPlanResponse>, t: Throwable) {
-
                     showToast("Error fetching plans: ${t.message}")
                 }
             })
@@ -244,22 +207,13 @@ class Data : Fragment() {
                 planNames
             )
         binding.bundleName.setAdapter(adapter)
-
-        binding.bundleName.setOnItemClickListener { _, _, position, _ ->
-            val selectedPlan = plans[position]
-        }
     }
 
     private fun validateInputs(): Boolean {
-
-
-        if (binding.phoneNumberEt.text.toString()
-                .isEmpty() || binding.phoneNumberEt.text.toString().length != 11
-        ) {
+        if (binding.phoneNumberEt.text.toString().length != 11) {
             showToast("Please enter a valid 11-digit phone number.")
             return false
         }
-
 
         if (binding.networkName.text.toString().isEmpty()) {
             showToast("Please select a network.")
@@ -272,9 +226,7 @@ class Data : Fragment() {
         }
 
         return true
-
     }
-
 
     private fun clearPlanDropdown() {
         binding.bundleName.setText("")
@@ -291,7 +243,6 @@ class Data : Fragment() {
             show()
         }
 
-
         object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
@@ -305,15 +256,11 @@ class Data : Fragment() {
     }
 
     private fun showToast(message: String) {
-        val rootView = binding.root
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

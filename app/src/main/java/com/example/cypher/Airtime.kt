@@ -45,29 +45,17 @@ class Airtime : Fragment() {
         binding.arrow.setOnClickListener {
             findNavController().popBackStack()
         }
+// Fixed InputFilter Length
+        binding.phoneNumberEt.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(11))
 
-        binding.phoneNumberEt.filters = arrayOf(InputFilter.LengthFilter(11))
-
-        val sharedPreferences =
-            requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-        val authToken = sharedPreferences.getString("auth_token", "") ?: ""
-
-        if (authToken.isNotEmpty()) {
-            getNetworkList(authToken)
-        } else {
-            Toast.makeText(requireContext(), R.string.error_auth_token_missing, Toast.LENGTH_SHORT)
-                .show()
-        }
-
-
-
+        // Fetch Network List (No need for authToken, handled in BillsClient)
+        getNetworkList()
 
         binding.payBtn.setOnClickListener {
             if (validateFields()) {
-                makeAirtimePurchase(authToken)
+                makeAirtimePurchase()
             }
         }
-
 
         return view
     }
@@ -92,18 +80,21 @@ class Airtime : Fragment() {
             return false
         }
 
-
         return true
     }
 
-    private fun makeAirtimePurchase(authToken: String) {
+    private fun makeAirtimePurchase() {
         val phoneNumber = binding.phoneNumberEt.text.toString().trim()
         val amount = binding.amountEt.text.toString().trim()
 
+        if (selectedNetworkCode.isNullOrEmpty()) {
+            showToast("Please select a network before proceeding.")
+            return
+        }
+
         showProgressBar(R.layout.progress_bar)
-        BillsClient.instance(requireContext())
+        BillsClient.instance()
             .buyAirtime(
-                "Bearer $authToken",
                 selectedNetworkCode!!,
                 phoneNumber,
                 amount,
@@ -113,36 +104,32 @@ class Airtime : Fragment() {
                     response: Response<AirtimeBuyResponse>
                 ) {
                     hideProgressBar()
-                    if (response.code() == 403) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Unauthorized access. Please log in again.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Optionally redirect the user to the login screen
-                    } else if (response.isSuccessful) {
-                        showToast("Airtime Was Successful")
-                    } else {
-                        showToast("Cipher Protocol Is Down")
+                    when {
+                        response.code() == 403 -> {
+                            showToast("Unauthorized access. Please log in again.")
+                        }
 
+                        response.isSuccessful -> {
+                            showToast("Airtime purchase was successful")
+                        }
+
+                        else -> {
+                            showToast("Cipher Protocol is down")
+                        }
                     }
                 }
 
-
                 override fun onFailure(call: Call<AirtimeBuyResponse>, t: Throwable) {
-
                     hideProgressBar()
                     Log.e("Airtime", "Error: ${t.localizedMessage}")
                     showToast("Airtime purchase failed. Check your internet connection.")
                 }
             })
-
     }
 
-
-    private fun getNetworkList(authToken: String) {
+    private fun getNetworkList() {
         showProgressBar(R.layout.progress_bar)
-        BillsClient.instance(requireContext()).getNetworkList("Bearer $authToken")
+        BillsClient.instance().getNetworkList()
             .enqueue(object : Callback<NetworkResponse> {
                 override fun onResponse(
                     call: Call<NetworkResponse>,
@@ -164,23 +151,14 @@ class Airtime : Fragment() {
                         )
                         showToast("Response Code: ${response.code()}, Message: ${response.message()}")
                     }
-
-
                 }
-
 
                 override fun onFailure(call: Call<NetworkResponse>, t: Throwable) {
                     hideProgressBar()
                     showToast("Failed to load networks. Please try again.")
-
                 }
-
-
             })
-
-
     }
-
 
     private fun setupNetworkDropdown(
         networkNames: List<String>,
@@ -219,7 +197,6 @@ class Airtime : Fragment() {
             }
         }
 
-
         binding.networkName.setAdapter(arrayAdapter)
 
         binding.networkName.setOnItemClickListener { _, _, position, _ ->
@@ -228,7 +205,6 @@ class Airtime : Fragment() {
         }
     }
 
-
     private fun showProgressBar(layoutResId: Int) {
         dialog = Dialog(requireContext()).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -236,7 +212,6 @@ class Airtime : Fragment() {
             setCanceledOnTouchOutside(false)
             show()
         }
-
 
         object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
@@ -250,15 +225,13 @@ class Airtime : Fragment() {
         dialog?.dismiss()
     }
 
-    private fun showToast(message: String) {
-        val rootView = binding.root
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
-    }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showToast(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
 

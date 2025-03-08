@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "929992926681",
+    "project_id": "cyphergo-64796",
+    "storage_bucket": "cyphergo-64796.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929992926681:android:240500ac9134615a4f25c8",
+        "android_client_info": {
+          "package_name": "com.example.cypher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbMdgTGfQfpapXB9x3eOsEvyeSWbHgFDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

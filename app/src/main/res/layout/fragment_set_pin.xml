@@ -27,7 +27,6 @@
         android:layout_marginTop="44dp"
         android:contentDescription="Profile Picture"
         android:src="@drawable/logo"
-        app:layout_constraintMarginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
@@ -41,7 +40,6 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintMarginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/profileImage"
         app:layout_constraintTop_toBottomOf="@id/profileImage" />
 
@@ -56,7 +54,6 @@
         android:textSize="14sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEnterPin" />
 
@@ -73,24 +70,28 @@
         app:layout_constraintTop_toBottomOf="@id/tvLogout">
 
         <View
+            android:id="@+id/dot1"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_margin="8dp"
             android:background="@drawable/pin_dot" />
 
         <View
+            android:id="@+id/dot2"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_margin="8dp"
             android:background="@drawable/pin_dot" />
 
         <View
+            android:id="@+id/dot3"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_margin="8dp"
             android:background="@drawable/pin_dot" />
 
         <View
+            android:id="@+id/dot4"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_margin="8dp"
